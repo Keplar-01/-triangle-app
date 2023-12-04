@@ -1,24 +1,18 @@
 import os
+import subprocess
 import sys
 
-os.system('''pyside6-rcc res.qrc -o res_rc.py
-pyside6-uic MainWindow.ui > ui_mainwindow.py'''.replace('\n', '&'))
-
-from PySide6.QtWidgets import QApplication, QMainWindow
-
-from ui_mainwindow import Ui_MainWindow
+from PySide6.QtWidgets import QApplication
+from windows.MainWindow import MainWindow
 
 
-class MyWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
-        self.ui = Ui_MainWindow()
-        self.ui.setupUi(self)
-        # code
-        self.show()
 
-
+# os.system(r'''venv\Scripts\activate.bat
+# pyside6-rcc resources/res.qrc -o generates/res_rc.py
+# .venv/Scripts/pyside6-uic resources/MainWindow.ui > generates/ui_mainwindow.py
+# .venv/Scripts/pyside6-uic resources/DBPage.ui > generates/ui_dbpage.py
+# .venv/Scripts/pyside6-uic resources/DatabasePage.ui > generates/ui_databasepage.py'''.replace('/n', '&'))
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    window = MyWindow()
+    window = MainWindow()
     sys.exit(app.exec())
