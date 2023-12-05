@@ -1,7 +1,8 @@
 from PySide6.QtCore import QFile, QTextStream
 from PySide6.QtWidgets import QMainWindow, QFileDialog, QMessageBox
 
-from generates.ui_mainwindow import Ui_MainWindow
+from generated.ui_mainwindow import Ui_MainWindow
+from utils.FIleDS import FileDS
 from utils.Triangle import RightTriangle
 from windows.DataBasePage import DataBasePage
 
@@ -29,13 +30,11 @@ class MainWindow(QMainWindow):
         options |= QFileDialog.ReadOnly
         file_name, _ = QFileDialog.getOpenFileName(self, "Выберите файл", "", "Текстовые файлы (*.txt);;Все файлы (*)",
                                                    options=options)
-        with open(file_name, 'r') as file:
-            content = file.readline().strip()
-            try:
-                firstSide, secondSide = map(float, content.split())
-                self.ui.firstSideNum.setValue(firstSide)
-                self.ui.secondSideNum.setValue(secondSide)
-            except ValueError as e:
+        all_triangles = FileDS(file_name).get_list()
+        try:
+            self.ui.firstSideNum.setValue(all_triangles[0].get_first_side())
+            self.ui.secondSideNum.setValue(all_triangles[0].get_second_side())
+        except Exception as e:
                 QMessageBox.critical(self, "Ошибка", f"Ошибка при чтении файла, убедитесь, что в строке лежат два "
                                                      f"числа разделенных пробелом")
 
