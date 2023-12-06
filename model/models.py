@@ -14,3 +14,18 @@ class Triangle(Base):
     def __init__(self, first_side, second_side):
         self.first_side = first_side
         self.second_side = second_side
+
+    @property
+    def hypotenuse(self) -> float:
+        return (self.first_side ** 2 + self.second_side ** 2) ** 0.5
+
+    @property
+    def area(self) -> float:
+        return self.first_side * self.second_side / 2
+
+    @property
+    def perimeter(self) -> float:
+        return self.first_side + self.second_side + self.hypotenuse
+
+    def __str__(self) -> str:
+        return f'A={self.first_side} B={self.second_side} C={self.hypotenuse}'
