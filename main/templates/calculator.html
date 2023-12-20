@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Калькулятор</title>
+    <style>
+        form {
+            margin-bottom: 10px; /* Добавим отступ между формой и результатами расчета */
+        }
+        label {
+            /*display: block;*/
+            margin-bottom: 5px;
+        }
+        input {
+            margin-bottom: 10px;
+        }
+        button {
+            margin-top: 10px;
+        }
+    </style>
+    <script>
+        function validateInput(input) {
+            // Проверяем, если введенное значение меньше или равно нулю
+            if (parseFloat(input.value) <= 0) {
+                alert("Пожалуйста, введите положительное число.");
+                input.value = "";  // Очищаем поле ввода
+            }
+        }
+    </script>
+</head>
+<body>
+    <a href="{% url 'home' %}">Назад на главную страницу</a>
+    <h1>Калькулятор прямоугольного треугольника</h1>
+    <form method="post" action="{% url 'calculate_triangle' %}">
+        {% csrf_token %}
+        <label for="side_a">Сторона A:</label>
+        <input type="number" name="side_a" value="{{ request.POST.side_a }}" required oninput="validateInput(this)">
+        <br>
+        <label for="side_b">Сторона B:</label>
+        <input type="number" name="side_b" value="{{ request.POST.side_b }}" required oninput="validateInput(this)">
+        <br>
+        <button type="submit" name="form_mode" value="calculate">Рассчитать</button>
+        <button type="submit" name="form_mode" value="remember">Запомнить треугольник</button>
+    </form>
+
+    <h2>Результаты:</h2>
+    <p>Гипотенуза (C): {{ hypotenuse }}</p>
+    <p>Площадь: {{ area }}</p>
+    <p>Периметр: {{ perimeter }}</p>
+</body>
+</html>
