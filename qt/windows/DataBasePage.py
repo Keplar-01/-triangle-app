@@ -4,6 +4,7 @@ from PySide6.QtWidgets import QMainWindow, QTableWidgetItem
 from database import Session
 from qt.generated.ui_databasepage import Ui_DataBasePage
 from model.models import Triangle
+from utils.strateges.TriangleTableFillStrategy import TriangleTableFillStrategy
 
 
 class DataBasePage(QMainWindow):
@@ -12,28 +13,13 @@ class DataBasePage(QMainWindow):
         self.ui = Ui_DataBasePage()
         self.ui.setupUi(self)
         self.session = Session()
-        self.getDataTable()
+        self.strategy = TriangleTableFillStrategy(self.ui.tableWidget)
+        self.strategy.fill_table()
         self.ui.tableWidget.cellChanged.connect(self.dataChange)
         self.ui.tableWidget.itemDoubleClicked.connect(self.importData)
         self.ui.addRecBtn.clicked.connect(self.createTriangle)
         # code
         self.show()
-
-    def getDataTable(self):
-        triangles = self.session.query(Triangle).all()
-        self.ui.tableWidget.setRowCount(len(triangles))
-        self.ui.tableWidget.setColumnHidden(0, True)
-        for row, triangle in enumerate(triangles):
-            self.insertRow(triangle, row)
-
-    def insertRow(self, triangle: Triangle, row: int):
-        item_id = QTableWidgetItem(str(triangle.id))
-        item_first_side = QTableWidgetItem(str(triangle.first_side))
-        item_second_side = QTableWidgetItem(str(triangle.second_side))
-
-        self.ui.tableWidget.setItem(row, 0, item_id)
-        self.ui.tableWidget.setItem(row, 1, item_first_side)
-        self.ui.tableWidget.setItem(row, 2, item_second_side)
 
     def dataChange(self, row: int, col: int):
         item = self.ui.tableWidget.item(row, col)
@@ -60,10 +46,11 @@ class DataBasePage(QMainWindow):
         self.session.add(new_triangle)
         self.session.commit()
 
-        new_row_index = self.ui.tableWidget.rowCount()
+        row = self.ui.tableWidget.rowCount()
+        self.ui.tableWidget.setRowCount(self.ui.tableWidget.rowCount() + 1)
 
-        self.ui.tableWidget.insertRow(new_row_index)
-        self.insertRow(new_triangle, new_row_index)
+        self.strategy.insert_row(row, new_triangle)
+        self.ui.tableWidget.repaint()
 
     def closeEvent(self, event: QCloseEvent):
         event.accept()
