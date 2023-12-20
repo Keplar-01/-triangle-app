@@ -11,3 +11,11 @@ python-dotenv==1.0.0
 shiboken6==6.6.0
 SQLAlchemy==2.0.23
 typing_extensions==4.8.0
+asgiref==3.7.2
+Django==4.2.7
+psycopg2-binary==2.9.9
+sqlparse==0.4.4
+tornado==6.4
+tzdata==2023.3
+watchdog==3.0.0
+websocket-client==1.6.4

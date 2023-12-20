@@ -1,10 +1,8 @@
-from itertools import count
-
 from PySide6.QtGui import QCloseEvent
 from PySide6.QtWidgets import QMainWindow, QTableWidgetItem
 
-from database import engine, Session
-from generated.ui_databasepage import Ui_DataBasePage
+from database import Session
+from qt.generated.ui_databasepage import Ui_DataBasePage
 from model.models import Triangle
 
 

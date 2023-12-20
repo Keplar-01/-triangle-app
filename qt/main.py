@@ -1,5 +1,3 @@
-import os
-import subprocess
 import sys
 # os.system(r'''venv\Scripts\activate.bat
 # pyside6-rcc views/res.qrc -o generated/res_rc.py
@@ -8,7 +6,7 @@ import sys
 
 
 from PySide6.QtWidgets import QApplication
-from windows.MainWindow import MainWindow
+from qt.windows.MainWindow import MainWindow
 
 
 if __name__ == "__main__":
