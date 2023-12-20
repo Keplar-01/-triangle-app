@@ -30,7 +30,8 @@ def get_calculated_results(request):
                 'perimeter': triangle.perimeter,
             })
 
-        triangle.save()
+        Session().add(triangle)
+        Session().commit()
         return redirect('triangles_from_db')
 
     return render(request, 'calculator.html', {
