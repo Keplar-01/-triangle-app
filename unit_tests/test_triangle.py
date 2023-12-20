@@ -1,8 +1,7 @@
-from django.test import TestCase
-from main.models import Triangle
+import unittest
+from model.models import Triangle
 
-
-class TestTriangle(TestCase):
+class TestTriangle(unittest.TestCase):
 
     def setUp(self):
         self.triangle1 = Triangle(first_side=3, second_side=4)
@@ -23,3 +22,6 @@ class TestTriangle(TestCase):
     def test_str(self):
         self.assertEqual(str(self.triangle1), 'A=3 B=4 C=5.0')
         self.assertEqual(str(self.triangle2), 'A=5 B=12 C=13.0')
+
+if __name__ == '__main__':
+    unittest.main()

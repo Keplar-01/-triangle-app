@@ -1,18 +1,34 @@
-from django.test import TestCase
-from main.models import Triangle
+import unittest
+from database import Session
+from model.models import Base, Triangle
 
+class TestTriangleModel(unittest.TestCase):
+    def setUp(self):
+        self.session = Session()
 
-class TriangleModelTests(TestCase):
+    def tearDown(self):
+        self.session.close_all()
 
     def test_triangle_creation(self):
-        triangle = Triangle.objects.create(first_side=3, second_side=4)
-        saved_triangle = Triangle.objects.get(pk=triangle.pk)
+        triangle = Triangle(first_side=3, second_side=4)
+        self.session.add(triangle)
+        self.session.commit()
+
+        saved_triangle = self.session.query(Triangle).filter_by(id=triangle.id).first()
         self.assertEqual(saved_triangle.first_side, 3.0)
         self.assertEqual(saved_triangle.second_side, 4.0)
 
     def test_delete_triangle(self):
-        triangle = Triangle.objects.create(first_side=3, second_side=4)
+        triangle = Triangle(first_side=3, second_side=4)
+        self.session.add(triangle)
+        self.session.commit()
+
         triangle_id = triangle.id
-        triangle.delete()
-        with self.assertRaises(Triangle.DoesNotExist):
-            deleted_triangle = Triangle.objects.get(pk=triangle_id)
+        self.session.delete(triangle)
+        self.session.commit()
+
+        with self.assertRaises(Exception):  # SQLAlchemy не бросает специфического исключения для отсутствия записи
+            deleted_triangle = self.session.query(Triangle).filter_by(id=triangle_id).one()
+
+if __name__ == '__main__':
+    unittest.main()
