@@ -1,9 +1,10 @@
-from PySide6.QtWidgets import QMainWindow, QFileDialog, QMessageBox
+from PySide6.QtWidgets import QMainWindow, QFileDialog, QMessageBox, QDoubleSpinBox, QLabel
 
 from qt.generated.ui_mainwindow import Ui_MainWindow
 from model.models import Triangle
 from utils.FIleDS import FileDS
 from qt.windows.DataBasePage import DataBasePage
+from utils.RabbitMQListener import RabbitMQListener
 
 
 class MainWindow(QMainWindow):
@@ -15,7 +16,15 @@ class MainWindow(QMainWindow):
         self.ui.calculateBtn.clicked.connect(self.calculate)
         self.ui.fileBtn.clicked.connect(self.readFromFile)
         self.ui.databaseBtn.clicked.connect(self.openDatabasePage)
-        # code
+
+        self.rabbitmq_listener = RabbitMQListener(
+            self.ui.firstSideNum,
+            self.ui.secondSideNum,
+            self.ui.Hyp,
+            self.ui.perimetr,
+            self.ui.area
+        )
+        self.rabbitmq_listener.start()
         self.show()
 
     def calculate(self):

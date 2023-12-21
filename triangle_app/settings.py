@@ -41,9 +41,13 @@ INSTALLED_APPS = [
     # 'livesync', # not in docker for reload on code change
     'django.contrib.staticfiles',
     'main',
-    'django.contrib.postgres'
+    'aldjemy',
+    'django.contrib.postgres',
 ]
-
+ALDJEMY_DATA_TYPES = {
+    'my_custom_type': 'my.custom.backend.TypeClass',
+    # ... другие кастомные типы данных, если они вам нужны ...
+}
 # MIDDLEWARE_CLASSES = (  # not in docker for reload on code change
 #     'livesync.core.middleware.DjangoLiveSyncMiddleware',
 # )
@@ -96,8 +100,7 @@ DATABASES = {
         'NAME': 'triangle_desktop_app',
         'USER': 'root',
         'PASSWORD': '123456',
-        'HOST': 'localhost',  # not in docker-compose
-        # 'HOST': 'postgres',
+        'HOST': 'postgres',
         'PORT': '5432',
     }
 }
