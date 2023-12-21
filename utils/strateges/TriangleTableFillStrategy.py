@@ -32,7 +32,6 @@ class TriangleTableFillStrategy(IFigureTableFillStrategy):
         for row, triangle in enumerate(data):
             self.insert_row(row, triangle)
 
-    def fill_table(self) -> None:
-        data = Session().query(Triangle).all()
+    def fill_table(self, data: list[Triangle]) -> None:
         self.set_up_columns(self.column_names)
         self.set_up_rows(data)

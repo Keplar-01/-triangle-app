@@ -14,7 +14,7 @@ class DataBasePage(QMainWindow):
         self.ui.setupUi(self)
         self.session = Session()
         self.strategy = TriangleTableFillStrategy(self.ui.tableWidget)
-        self.strategy.fill_table()
+        self.strategy.fill_table(self.session.query(Triangle).all())
         self.ui.tableWidget.cellChanged.connect(self.dataChange)
         self.ui.tableWidget.itemDoubleClicked.connect(self.importData)
         self.ui.addRecBtn.clicked.connect(self.createTriangle)

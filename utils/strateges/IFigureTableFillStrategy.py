@@ -11,5 +11,5 @@ class IFigureTableFillStrategy(ABC):
         pass
 
     @abstractmethod
-    def fill_table(self):
+    def fill_table(self, data):
         pass
