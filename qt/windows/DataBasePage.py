@@ -6,6 +6,8 @@ from qt.generated.ui_databasepage import Ui_DataBasePage
 from model.models import Triangle
 from model.builder import TriangleBuilder
 from utils.strateges.TriangleTableFillStrategy import TriangleTableFillStrategy
+from utils.table_factory.QtTable import QtTable
+from utils.table_factory.TableFactory import TableFactory
 
 
 class DataBasePage(QMainWindow):
@@ -14,8 +16,9 @@ class DataBasePage(QMainWindow):
         self.ui = Ui_DataBasePage()
         self.ui.setupUi(self)
         self.session = Session()
-        self.strategy = TriangleTableFillStrategy(self.ui.tableWidget)
-        self.strategy.fill_table(self.session.query(Triangle).all())
+        self.table = TableFactory().create_table('qt', self.ui.tableWidget)
+        self.strategy = TriangleTableFillStrategy(self.table)
+        self.strategy.fill_table()
         self.ui.tableWidget.cellChanged.connect(self.dataChange)
         self.ui.tableWidget.itemDoubleClicked.connect(self.importData)
         self.ui.addRecBtn.clicked.connect(self.createTriangle)
@@ -50,10 +53,17 @@ class DataBasePage(QMainWindow):
 
         row = self.ui.tableWidget.rowCount()
         self.ui.tableWidget.setRowCount(self.ui.tableWidget.rowCount() + 1)
-
-        self.strategy.insert_row(row, triangle)
+        self.insert_row(row, triangle)
         self.ui.tableWidget.repaint()
 
+    def insert_row(self, row: int, triangle: Triangle) -> None:
+        item_id = QTableWidgetItem(str(triangle.id))
+        item_first_side = QTableWidgetItem(str(triangle.first_side))
+        item_second_side = QTableWidgetItem(str(triangle.second_side))
+
+        self.ui.tableWidget.setItem(row, 0, item_id)
+        self.ui.tableWidget.setItem(row, 1, item_first_side)
+        self.ui.tableWidget.setItem(row, 2, item_second_side)
     def closeEvent(self, event: QCloseEvent):
         event.accept()
         self.parent().setEnabled(True)
