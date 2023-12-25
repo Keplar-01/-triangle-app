@@ -1,7 +1,7 @@
 from PySide6.QtWidgets import QMainWindow, QFileDialog, QMessageBox
 
 from qt.generated.ui_mainwindow import Ui_MainWindow
-from model.models import Triangle
+from model.builder import TriangleBuilder
 from utils.FIleDS import FileDS
 from qt.windows.DataBasePage import DataBasePage
 
@@ -19,10 +19,12 @@ class MainWindow(QMainWindow):
         self.show()
 
     def calculate(self):
-        trio = Triangle(self.ui.firstSideNum.value(), self.ui.secondSideNum.value())
-        self.ui.Hyp.setText(f'{trio.hypotenuse}')
-        self.ui.perimetr.setText(f'{trio.perimeter}')
-        self.ui.area.setText(f'{trio.area}')
+        builder = TriangleBuilder()
+        triangle = builder.set_first_side(self.ui.firstSideNum.value()).set_second_side(self.ui.secondSideNum.value())\
+            .get_triangle()
+        self.ui.Hyp.setText(f'{triangle.hypotenuse}')
+        self.ui.perimetr.setText(f'{triangle.perimeter}')
+        self.ui.area.setText(f'{triangle.area}')
 
     def readFromFile(self):
         options = QFileDialog.Options()

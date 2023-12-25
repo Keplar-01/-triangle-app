@@ -4,6 +4,7 @@ from PySide6.QtWidgets import QMainWindow, QTableWidgetItem
 from database import Session
 from qt.generated.ui_databasepage import Ui_DataBasePage
 from model.models import Triangle
+from model.builder import TriangleBuilder
 from utils.strateges.TriangleTableFillStrategy import TriangleTableFillStrategy
 
 
@@ -42,14 +43,15 @@ class DataBasePage(QMainWindow):
     def createTriangle(self):
         first_side = self.ui.cntCatet1.value()
         second_side = self.ui.cntCatet2.value()
-        new_triangle = Triangle(first_side, second_side)
-        self.session.add(new_triangle)
+        builder = TriangleBuilder()
+        triangle = builder.set_first_side(first_side).set_second_side(second_side).get_triangle()
+        self.session.add(triangle)
         self.session.commit()
 
         row = self.ui.tableWidget.rowCount()
         self.ui.tableWidget.setRowCount(self.ui.tableWidget.rowCount() + 1)
 
-        self.strategy.insert_row(row, new_triangle)
+        self.strategy.insert_row(row, triangle)
         self.ui.tableWidget.repaint()
 
     def closeEvent(self, event: QCloseEvent):
