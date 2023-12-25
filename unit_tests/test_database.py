@@ -1,8 +1,13 @@
 import unittest
 from database import Session
-from model.models import Base, Triangle
+from model.models import Triangle
+from model.builder import TriangleBuilder
+
 
 class TestTriangleModel(unittest.TestCase):
+    builder = TriangleBuilder()
+    triangle = builder.set_first_side(3).set_second_side(4).get_triangle()
+
     def setUp(self):
         self.session = Session()
 
@@ -10,7 +15,8 @@ class TestTriangleModel(unittest.TestCase):
         self.session.close_all()
 
     def test_triangle_creation(self):
-        triangle = Triangle(first_side=3, second_side=4)
+        builder = TriangleBuilder()
+        triangle = builder.set_first_side(3).set_second_side(4).get_triangle()
         self.session.add(triangle)
         self.session.commit()
 
@@ -19,7 +25,8 @@ class TestTriangleModel(unittest.TestCase):
         self.assertEqual(saved_triangle.second_side, 4.0)
 
     def test_delete_triangle(self):
-        triangle = Triangle(first_side=3, second_side=4)
+        builder = TriangleBuilder()
+        triangle = builder.set_first_side(3).set_second_side(4).get_triangle()
         self.session.add(triangle)
         self.session.commit()
 
@@ -29,6 +36,7 @@ class TestTriangleModel(unittest.TestCase):
 
         with self.assertRaises(Exception):  # SQLAlchemy не бросает специфического исключения для отсутствия записи
             deleted_triangle = self.session.query(Triangle).filter_by(id=triangle_id).one()
+
 
 if __name__ == '__main__':
     unittest.main()

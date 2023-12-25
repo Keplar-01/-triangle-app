@@ -1,11 +1,14 @@
 import unittest
-from model.models import Triangle
+from model.builder import TriangleBuilder
+
 
 class TestTriangle(unittest.TestCase):
 
     def setUp(self):
-        self.triangle1 = Triangle(first_side=3, second_side=4)
-        self.triangle2 = Triangle(first_side=5, second_side=12)
+        builder1 = TriangleBuilder()
+        builder2 = TriangleBuilder()
+        self.triangle1 = builder1.set_first_side(3).set_second_side(4).get_triangle()
+        self.triangle2 = builder2.set_first_side(5).set_second_side(12).get_triangle()
 
     def test_hypotenuse(self):
         self.assertEqual(self.triangle1.hypotenuse, 5)

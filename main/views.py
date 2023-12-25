@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 
-from model.models import Triangle
 from model.builder import TriangleBuilder
 from utils.strateges.TriangleTableFillStrategy import TriangleTableFillStrategy
 from utils.table_factory.TableFactory import TableFactory
@@ -17,8 +16,8 @@ def get_calculator_page(request):
 
 
 def get_triangles_from_db(request):
-    all_triangles = Session().query(Triangle).all()
-    table = TableFactory().create_table('html', 'table')
+    factory = TableFactory()
+    table = factory.create_table('html', 'table')
     strategy = TriangleTableFillStrategy(table)
     column_names = ["id", "Первая сторона", "Вторая сторона", 'Гиппотенуза', "Периметр", "Площадь"]
     return render(request, 'triangles_from_db.html', {'triangles_table': strategy.fill_table(column_names)})
