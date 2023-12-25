@@ -20,5 +20,5 @@ class QtTable(ITable):
         for row_index, row in enumerate(data[1:]):
             for column_index, item in enumerate(row):
                 self.table.setItem(row_index, column_index, QTableWidgetItem(str(item)))
-
+        return self.table
 

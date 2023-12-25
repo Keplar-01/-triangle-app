@@ -16,9 +16,10 @@ class DataBasePage(QMainWindow):
         self.ui = Ui_DataBasePage()
         self.ui.setupUi(self)
         self.session = Session()
+        self.columns_names = ["id", "Первая сторона", "Вторая сторона"]
         self.table = TableFactory().create_table('qt', self.ui.tableWidget)
         self.strategy = TriangleTableFillStrategy(self.table)
-        self.strategy.fill_table()
+        self.strategy.fill_table(self.columns_names)
         self.ui.tableWidget.cellChanged.connect(self.dataChange)
         self.ui.tableWidget.itemDoubleClicked.connect(self.importData)
         self.ui.addRecBtn.clicked.connect(self.createTriangle)

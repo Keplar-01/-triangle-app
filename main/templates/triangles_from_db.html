@@ -27,27 +27,6 @@
 <body>
     <a href="{% url 'home' %}">Назад на главную страницу</a>
     <h1>Треугольники из базы данных</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>A</th>
-                <th>B</th>
-                <th>C</th>
-                <th>Площадь</th>
-                <th>Периметр</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for triangle in triangles %}
-                <tr>
-                    <td>{{ triangle.first_side }}</td>
-                    <td>{{ triangle.second_side }}</td>
-                    <td>{{ triangle.hypotenuse }}</td>
-                    <td>{{ triangle.area }}</td>
-                    <td>{{ triangle.perimeter }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    {{ triangles_table|safe }}
 </body>
 </html>
