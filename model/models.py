@@ -11,10 +11,6 @@ class Triangle(Base):
     first_side = Column(Float)
     second_side = Column(Float)
 
-    def __init__(self, first_side, second_side):
-        self.first_side = first_side
-        self.second_side = second_side
-
     @property
     def hypotenuse(self) -> float:
         return (self.first_side ** 2 + self.second_side ** 2) ** 0.5
