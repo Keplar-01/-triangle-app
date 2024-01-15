@@ -14,3 +14,6 @@ class HtmlTable(ITable):
             html += "  </tr>\n"
         html += "</table>"
         return html
+
+    def insert_row(self,  data, row):
+        pass

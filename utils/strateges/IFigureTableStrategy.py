@@ -15,9 +15,5 @@ class IFigureTableStrategy(ABC):
         pass
 
     @abstractmethod
-    def delete_row(self, data, row_index):
-        pass
-
-    @abstractmethod
     def update_row(self, data, row_index):
         pass

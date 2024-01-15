@@ -1,12 +1,11 @@
 from PySide6.QtGui import QCloseEvent
 from PySide6.QtWidgets import QMainWindow, QTableWidgetItem
 
+from database import Session
 from qt.generated.ui_databasepage import Ui_DataBasePage
-from model.models import Triangle
-from model.builder import TriangleBuilder
+from utils.data_sources.SQLAlchemyDS import SQLAlchemyDataSource
 from utils.strateges.TriangleTableStrategy import TriangleTableStrategy
 
-from utils.table_factory.QtTable import QtTable
 from utils.table_factory.TableFactory import TableFactory
 
 
@@ -17,7 +16,8 @@ class DataBasePage(QMainWindow):
         self.ui.setupUi(self)
         self.columns_names = ["id", "Первая сторона", "Вторая сторона"]
         self.table = TableFactory().create_table('qt', self.ui.tableWidget)
-        self.strategy = TriangleTableStrategy(self.table)
+        self.data_source = SQLAlchemyDataSource(Session())
+        self.strategy = TriangleTableStrategy(self.table, self.data_source)
         self.strategy.fill_table(self.columns_names)
         self.ui.tableWidget.cellChanged.connect(self.dataChange)
         self.ui.tableWidget.itemDoubleClicked.connect(self.importData)

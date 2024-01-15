@@ -1,7 +1,7 @@
 from database import Session
 from model.models import Triangle
 from model.builder import TriangleBuilder
-from utils.IDataSource import IDataSource
+from utils.data_sources.IDataSource import IDataSource
 
 
 class FileDS(IDataSource):

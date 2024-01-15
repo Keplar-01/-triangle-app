@@ -26,5 +26,4 @@ class QtTable(ITable):
         self.table.setRowCount(self.table.rowCount() + 1)
         for i in range(0, self.table.columnCount()):
             self.table.setItem(row, i, QTableWidgetItem(str(data[i])))
-        # return self.table
 

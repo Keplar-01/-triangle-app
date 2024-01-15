@@ -2,7 +2,7 @@ from PySide6.QtWidgets import QMainWindow, QFileDialog, QMessageBox
 
 from qt.generated.ui_mainwindow import Ui_MainWindow
 from model.builder import TriangleBuilder
-from utils.FIleDS import FileDS
+from utils.data_sources.FIleDS import FileDS
 from qt.windows.DataBasePage import DataBasePage
 
 

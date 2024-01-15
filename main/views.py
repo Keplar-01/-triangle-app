@@ -1,13 +1,13 @@
 from django.shortcuts import render, redirect
 
-from model.models import Triangle
 from model.builder import TriangleBuilder
+from utils.data_sources.SQLAlchemyDS import SQLAlchemyDataSource
 from utils.strateges.TriangleTableStrategy import TriangleTableStrategy
 from utils.table_factory.TableFactory import TableFactory
 from .enums import ActionType
 from database import Session
 
-
+data_source = SQLAlchemyDataSource(Session())
 def get_home_page(request):
     return render(request, 'home.html')
 
@@ -17,9 +17,8 @@ def get_calculator_page(request):
 
 
 def get_triangles_from_db(request):
-    all_triangles = Session().query(Triangle).all()
     table = TableFactory().create_table('html', 'table')
-    strategy = TriangleTableStrategy(table)
+    strategy = TriangleTableStrategy(table, data_source)
     column_names = ["id", "Первая сторона", "Вторая сторона", 'Гиппотенуза', "Периметр", "Площадь"]
     return render(request, 'triangles_from_db.html', {'triangles_table': strategy.fill_table(column_names)})
 
@@ -39,9 +38,7 @@ def get_calculated_results(request):
                 'area': triangle.area,
                 'perimeter': triangle.perimeter,
             })
-
-        session.add(triangle)
-        session.commit()
+        data_source.insert_item(triangle)
         return redirect('triangles_from_db')
 
     return render(request, 'calculator.html', {
