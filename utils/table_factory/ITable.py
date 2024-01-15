@@ -6,8 +6,6 @@ class ITable(ABC):
     def render(self, data):
         pass
 
-
-
-
-
-
+    @abstractmethod
+    def insert_row(self,  data, row):
+        pass

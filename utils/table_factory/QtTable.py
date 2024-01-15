@@ -22,3 +22,9 @@ class QtTable(ITable):
                 self.table.setItem(row_index, column_index, QTableWidgetItem(str(item)))
         return self.table
 
+    def insert_row(self, data: list, row: int) -> QTableWidget | QTableWidget:
+        self.table.setRowCount(self.table.rowCount() + 1)
+        for i in range(0, self.table.columnCount()):
+            self.table.setItem(row, i, QTableWidgetItem(str(data[i])))
+        # return self.table
+
